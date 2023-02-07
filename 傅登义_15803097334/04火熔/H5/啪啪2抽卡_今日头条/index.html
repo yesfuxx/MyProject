@@ -1,0 +1,104 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8" />
+    <title>啪啪三国2 | 抽卡</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1 user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="full-screen" content="true"/>
+    <meta name="screen-orientation" content="portrait"/>
+    <meta name="x5-fullscreen" content="true"/>
+    <meta name="360-fullscreen" content="true"/>
+    <style type="text/css">
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        #parent{
+            width: 100%;
+            height: 30%;
+            position: absolute;
+        }
+        #logo{
+            width: 65%;
+            margin-top: 8%;
+            position: relative;
+            z-index: 1;            
+        }
+        #bg{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 0;  
+        }
+        #phaser-example{
+            width: 100%;
+            height: 100%;
+            margin-top: -14%;
+            position: absolute;
+            z-index: 2;
+        }
+        #parent2{
+            height: 50%;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            z-index: 2;
+        }
+        #playnow{          
+            width: 50%;
+            margin-top: 40%;
+        }
+        #playnow:active{
+            transform:scale(0.95);
+            -ms-transform:rotate(0.97); 	/* IE 9 */
+            -moz-transform:rotate(0.97); 	/* Firefox */
+            -webkit-transform:rotate(0.97); /* Safari 和 Chrome */
+            -o-transform:rotate(0.97); 	/* Opera */
+        }
+    </style>
+    <script src="js/data01.js"></script>
+    <script src="js/data02.js"></script>
+    <script src="js/data03.js"></script>
+    <script src="js/phaser.min.js"></script>
+</head>
+<body onload="myload()">
+    <img id="bg">
+    <div align="center" id='parent'>
+        <img id='logo'>
+    </div>    
+    <div id='phaser-example'></div>
+    <div align="center" id='parent2'>
+        <img id='playnow'>
+    </div>
+    <script src="https://sf3-ttcdn-tos.pstatp.com/obj/union-fe-nc/playable/sdk/playable-sdk.js" data-tomark-pass  data-tomark-pass ></script>
+    <script type="text/javascript">
+        
+    function myload(){console.log('加载页面');setMargin();}function setMargin(){if(window.orientation===180||window.orientation===0){console.log('竖屏状态！');document.getElementById("phaser-example").style['margin-top']='-14%';document.getElementById("parent2").style['z-index']='3';}else if(window.orientation===90||window.orientation===-90){console.log('横屏状态！');document.getElementById("phaser-example").style['margin-top']='0%';document.getElementById("parent2").style['z-index']='0';}}window.addEventListener("onorientationchange"in window?"orientationchange":"resize",()=>{setMargin();},false);document.getElementById("bg").setAttribute("src",data_img_bg);document.getElementById("logo").setAttribute("src",data_img_logo);document.getElementById("playnow").setAttribute("src",data_img_download);document.getElementById("playnow").onclick=function(e){e.preventDefault();let tap=new Audio(data_audio_uitap);tap.addEventListener('ended',()=>{callAdFuc();});tap.play();};function callAdFuc(){try{window.playableSDK.openAppStore();}catch(error){console.log(error);}}const bgs=['bg01','bg02','bg03'];const backCards=['backCard01','backCard02','backCard03'];const normalCards=['ShaoNianLiuBei_R','BuLianShi_R','XiaoQiao_R','DaQiao_SR','LvBu_SR'];const rareCards=['DiaoChan_SSR'];var backCard;var rareCard;var bShowParticle;var tapCount;var tapCount_all;var tapCount_text;var papatext;var rarevideo;class Boot extends Phaser.Scene{constructor(){super('boot');}preload(){this.load.video('video_DiaoChan_SSR',data_video_DiaoChan_SSR,'loadeddata',false,false);}create(){this.events.once('initial',this.initial,this);this.loadAssets();}update(){if(this.loadIndex<this.loadNums){return;}else{this.events.emit('initial');}}loadAssets(){this.loadIndex=0;this.loadNums=21;console.log('—————————— loadAssets,'+'nums: '+this.loadNums+' ——————————');this.loadAsset_Audios();this.loadAsset_Image(data_img_paticle_yellow,'img_paticle_yellow');this.loadAsset_Image(data_img_bg01,'img_bg01');this.loadAsset_Image(data_img_bg02,'img_bg02');this.loadAsset_Image(data_img_bg03,'img_bg03');this.loadAsset_Image(data_img_download,'img_download');this.loadAsset_Image(data_img_panel,'img_panel');this.loadAsset_Image(data_img_logo,'img_logo');this.loadAsset_Image(data_img_searchbox,'img_searchbox');this.loadAsset_Image(data_img_magnifier,'img_magnifier');this.loadAsset_Image(data_img_border,'img_border');this.loadAsset_Image(data_img_backCards,'img_backCards');this.loadAsset_Image(data_img_backCard01,'img_backCard01');this.loadAsset_Image(data_img_backCard02,'img_backCard02');this.loadAsset_Image(data_img_backCard03,'img_backCard03');this.loadAsset_Image(data_img_ShaoNianLiuBei_R,'img_ShaoNianLiuBei_R');this.loadAsset_Image(data_img_BuLianShi_R,'img_BuLianShi_R');this.loadAsset_Image(data_img_XiaoQiao_R,'img_XiaoQiao_R');this.loadAsset_Image(data_img_DaQiao_SR,'img_DaQiao_SR');this.loadAsset_Image(data_img_LvBu_SR,'img_LvBu_SR');this.loadAsset_Image(data_img_DiaoChan_SSR,'img_DiaoChan_SSR');}loadAsset_Image(imgData,key,spriteSheet='false'){let img=new Image();img.src=imgData;img.onload=()=>{this.textures.addImage(key,img);if(spriteSheet){this[key+'_dom']=img;}++this.loadIndex;};}loadAsset_Audios(){let audioFiles=new Array({key:'uitap',data:data_audio_uitap},{key:'bgm',data:data_audio_bgm},{key:'taptext',data:data_audio_taptext},{key:'shufflecards',data:data_audio_shufflecards},{key:'dealcard',data:data_audio_dealcard},{key:'showrare',data:data_audio_showrare},{key:'magnifier',data:data_audio_magnifier});this.sound.once('decodedall',()=>{this.audio_uitap=this.sound.add('uitap');this.audio_bgm=this.sound.add('bgm');this.audio_taptext=this.sound.add('taptext');this.audio_shufflecards=this.sound.add('shufflecards');this.audio_dealcard=this.sound.add('dealcard');this.audio_showrare=this.sound.add('showrare');this.audio_showrare=this.sound.add('magnifier');++this.loadIndex;});this.sound.decodeAudio(audioFiles);}initial(){console.log('——————————loadAsset succuss!initial()——————————');this.scene.start('game');}}class Card extends Phaser.GameObjects.Sprite{constructor(scene,heroKey,backKey='backCard01',scale=1){super(scene,0,0,'img_'+backKey);this.setOrigin(0.5);this.cardScale=scale;this.setScale(scale);this.state=0;this.heroKey=heroKey;this.backKey=backKey;this.cardId=0;this.audio_tap=this.scene.sound.add('uitap');this.audio_tap.on('play',()=>{this.change2Front();},this);this.on('pointerdown',()=>{this.audio_tap.play();},this);scene.add.existing(this);}setHeroKey(heroKey){this.heroKey=heroKey;}change2Back_temp(){this.disableInteractive();this.scene.tweens.add({targets:this,ease:'Power1',scaleX:0,duration:300,onComplete:()=>{this.setTexture('img_'+this.backKey);this.scene.tweens.add({targets:this,ease:'Power1',scaleX:this.cardScale,duration:300,onComplete:()=>{this.state=0;}},this);},});}change2Front(){this.parent.setAllDisableInteractive();if(this.state==1){this.playVedio();return;}if(this.parent.bStartTrick){if(tapCount<=0){this.parent.setAllInteractive();return;}}this.scene.tweens.add({targets:this,ease:'Power1',scaleX:0,duration:300,onComplete:()=>{if(this.parent.bStartTrick&&!this.parent.bRareCardShow&&this.parent.frontNum<tapCount_all){if(this.parent.frontNum==tapCount_all-1){this.showRareCard();}else{let probability=Math.random();console.log('随机值概率: '+probability);switch(this.parent.frontNum){case 0:if(this.cardId!=Math.floor(this.parent.getLength()/2)){if(probability>0.6){this.showRareCard();}}break;case 1:if(probability>0.5){this.showRareCard();}break;}}}if(this.parent.bStartTrick){++this.parent.frontNum;tapCount_text.setText(--tapCount);if(tapCount==0){if(!rareCards.includes(this.heroKey)){this.scene.events.emit('showEndUI',600);}}}this.setTexture('img_'+this.heroKey);this.scene.tweens.add({targets:this,ease:'Power1',scaleX:this.cardScale,duration:300,onStart:()=>{if(this.parent.bStartTrick){if(this.parent.frontKeys.includes(this.heroKey)){this.parent.setAllInteractive();}}},onComplete:()=>{this.state=1;if(this.parent.bStartTrick){if(!this.parent.frontKeys.includes(this.heroKey)){this.parent.frontKeys.push(this.heroKey);this.playVedio();}}}},this);},});}showRareCard(){this.scene.showParticles();this.setHeroKey(rareCard);this.parent.bRareCardShow=true;this.scene.time.addEvent({delay:250,callback:()=>{this.scene.sound.play('showrare',{volume:1});this.scene.tweens.timeline({targets:this,ease:'Linear',duration:250,tweens:[{scale:this.cardScale*1.08},{scale:this.cardScale*0.95},{scale:this.cardScale*1.05},{scale:this.cardScale}]});},callbackScope:this,repeat:0});}move2(locX,locY,time=600){this.scene.tweens.add({targets:this,ease:'Power1',x:locX,y:locY,duration:time,onComplete:()=>{},});}setOldPosition(){this.x_old=this.x;this.y_old=this.y;}setParent(parent){this.parent=parent;}playVedio(delayTime=0,bLoop=false){console.log(this.heroKey+' has video: '+this.scene.cache.video.has('video_'+this.heroKey));if(!this.scene.cache.video.has('video_'+this.heroKey)){this.parent.setAllInteractive();if(tapCount==0){this.scene.events.emit('showEndUI',300);}return;}this.scene.time.addEvent({delay:delayTime,callback:()=>{rarevideo=this.scene.add.video(this.x,this.y,'video_'+this.heroKey).setScale(0).setOrigin(0.5).setAlpha(0).setDepth(11);rarevideo.on('complete',()=>{this.scene.tweens.add({targets:rarevideo,ease:'Power1',x:this.x,y:this.y,scale:0,alpha:0,duration:400,onStart:()=>{rarevideo.disableInteractive();let audio_tempTap=this.scene.sound.add('uitap');audio_tempTap.play();rarevideo.stop();this.parent.setAllInteractive();if(tapCount==0){this.scene.events.emit('showEndUI',300);}rarevideo.removeAllListeners();}},this);});this.scene.tweens.add({targets:rarevideo,ease:'Power1',x:game.config.width/2,y:game.config.height/2,scale:1.9,alpha:1,duration:400,onStart:()=>{rarevideo.setInteractive();if(bLoop){rarevideo.play({loop:true});}else{rarevideo.play();}this.scene.time.addEvent({delay:300,callback:()=>{rarevideo.on('pointerdown',()=>{this.scene.tweens.add({targets:rarevideo,ease:'Power1',x:this.x,y:this.y,scale:0,alpha:0,duration:400,onStart:()=>{rarevideo.disableInteractive();let audio_tempTap=this.scene.sound.add('uitap');audio_tempTap.play();rarevideo.stop();this.parent.setAllInteractive();if(tapCount==0){this.scene.events.emit('showEndUI',300);}rarevideo.removeAllListeners();},},this);},this);},callbackScope:this,repeat:0});},},this);},callbackScope:this,repeat:0});}}class MyGroup extends Phaser.GameObjects.Group{constructor(scene,children){super(scene,children);this.bStartTrick=false;this.frontNum=0;this.frontKeys=[];this.bRareCardShow=false;}createCards(nums=1,heroKey,backKey,scale=1){let card;for(let i=0;i<nums;++i){card=new Card(this.scene,heroKey,backKey,scale);card.setParent(this);card.cardId=i;this.add(card);}}setInteractiveByIndex(index){if(index<this.getLength()){this.getChildren()[index].setInteractive();}}setOldPosition(){this.getChildren().forEach(item=>{item.setOldPosition();});}setAllInteractive(){this.getChildren().forEach(item=>{item.setInteractive();});}setAllDisableInteractive(){this.getChildren().forEach(item=>{item.disableInteractive();});}setAllHeroKey(heroKey){this.getChildren().forEach(item=>{item.setHeroKey(heroKey);});}setAllCardsLevel(level=0){switch(level){case 0:this.getChildren().forEach(item=>{let index=getRndInteger(0,normalCards.length-1);let tempKey=normalCards[index];item.setHeroKey(tempKey);normalCards.splice(index,1);});break;case 1:this.getChildren().forEach(item=>{item.setHeroKey(rareCards[getRndInteger(0,rareCards.length-1)]);});break;}}}class Game extends Phaser.Scene{constructor(){super('game');this.sprites_particle=[];}create(){this.events.once('showEndUI',this.showEndUI,this);this.sound.play('bgm',{loop:true,volume:0.16});bShowParticle=false;tapCount=0;let bg=bgs[getRndInteger(0,bgs.length-1)];console.log('该次背景: '+bg);this.add.image(game.config.width/2,game.config.height/2,'img_'+bg).setOrigin(0.5).setScale(3.2,3.6).setDepth(-2);this.add.image(game.config.width/2,game.config.height/2,'img_border').setOrigin(0.5).setScale(2.86,2.8).setDepth(20);backCard=backCards[getRndInteger(0,backCards.length-1)];rareCard=rareCards[getRndInteger(0,rareCards.length-1)];this.group_card=new MyGroup(this,[]);this.group_card.setOrigin(0.5);this.group_card.createCards(5,normalCards[0],backCard,1.45);this.group_card.setAllDisableInteractive();this.group_card.getChildren()[Math.floor(this.group_card.getLength()/2)].setHeroKey(rareCard);Phaser.Actions.GridAlign(this.group_card.getChildren(),{width:5,height:1,cellWidth:310,position:0,x:game.config.width/6.8,y:game.config.height/2-30,});this.group_card.setOldPosition();let card_middle=this.group_card.getChildren()[Math.floor(this.group_card.getLength()/2)];let audio_tempTap=this.sound.add('uitap');audio_tempTap.play();card_middle.change2Front();this.time.addEvent({delay:1100,callback:()=>{card_middle.change2Back_temp();},callbackScope:this,repeat:0});this.time.addEvent({delay:1600,callback:()=>{this.sound.play('shufflecards',{volume:2,rate:1});this.group_card.getChildren().forEach(item=>{item.move2(card_middle.x,card_middle.y);});},callbackScope:this,repeat:0});this.time.addEvent({delay:2100,callback:()=>{let i=0;this.time.addEvent({delay:120,callback:()=>{if(i!=this.group_card.getLength()/2){this.time.addEvent({delay:150,callback:()=>{this.sound.play('dealcard',{volume:1,rate:1});},callbackScope:this,repeat:0});}let child=this.group_card.getChildren()[i];child.move2(child.x_old,child.y_old);++i;if(i==this.group_card.getLength()-1){console.log('发牌结束');this.group_card.setAllCardsLevel(0);this.group_card.bStartTrick=true;this.time.addEvent({delay:300,callback:()=>{this.group_card.setAllInteractive();},callbackScope:this,repeat:0});}},callbackScope:this,repeat:this.group_card.getLength()-1});},callbackScope:this,repeat:0});let tempHeight=332;this.add.image(game.config.width/2-220,game.config.height/2-tempHeight-2,'img_backCards').setOrigin(0.5).setScale(0.8);this.tapTextHead=this.add.text(game.config.width/2-110,game.config.height/2-tempHeight,'您有',{fontSize:'60px',fill:'#ffffff'}).setOrigin(0.5);tapCount_text=this.add.text(game.config.width/2-10,game.config.height/2-tempHeight,tapCount+'',{fontSize:'80px',fill:'#ffff00'}).setOrigin(0.5);tapCount_text.setStroke('#ffff00',6);this.tapTextTail=this.add.text(game.config.width/2+180,game.config.height/2-tempHeight,'次抽卡机会',{fontSize:'60px',fill:'#ffffff'}).setOrigin(0.5);this.time.addEvent({delay:500,callback:()=>{tapCount=-1;let repeatCount=getRndInteger(20,21);tapCount_all=repeatCount%6;console.log('抽卡次数: '+tapCount_all);this.time.addEvent({delay:60,callback:()=>{++tapCount;tapCount=tapCount%6;tapCount_text.setText(tapCount);},callbackScope:this,repeat:repeatCount});},callbackScope:this,repeat:0});this.time.addEvent({delay:1500,callback:()=>{this.tweens.timeline({targets:tapCount_text,loop:1,ease:'Power1',duration:400,tweens:[{scale:2},{scale:1}]},this);},callbackScope:this,repeat:0});this.ui_searchbox=this.add.sprite(0,120,'img_searchbox').setScale(0.6).setInteractive().setDepth(10);this.ui_magnifier=this.add.sprite(80,120,'img_magnifier').setScale(0.6).setInteractive().setDepth(10);this.ui_magnifier.initScale=this.ui_magnifier.scale;papatext=this.add.text(10,121.5,'',{fontSize:'20px',fill:'#000000',fontStyle:'bold italic'}).setOrigin(0.5);this.ui_download=this.add.sprite(0,40,'img_download').setScale(0.6).setInteractive().setDepth(10);this.ui_download.initScale=this.ui_download.scale;this.ui_panel=this.add.sprite(0,50,'img_panel').setScale(0.6).setInteractive().setDepth(10);this.uiContainer=this.add.container(game.config.width/2,game.config.height/2-80,[this.ui_panel,this.ui_download,this.ui_searchbox,this.ui_magnifier,papatext]);this.uiContainer.setSize(131,400).setScale(0).setDepth(10).setInteractive().setAlpha(0);this.ui_download.on('pointerdown',()=>{let audio_tap=this.sound.add('uitap');audio_tap.on('complete',()=>{this.time.addEvent({delay:500,callback:()=>{callAdFuc();},callbackScope:this,repeat:0});});audio_tap.play();});for(let i=0;i<300;++i){const x=Phaser.Math.Between(-64,game.config.width);const y=Phaser.Math.Between(-64,game.config.height);let image=this.add.image(x,y,'img_paticle_yellow').setAlpha(0).setDepth(-1).setScale(0);image.setBlendMode(Phaser.BlendModes.ADD);this.sprites_particle.push({s:image,r:2+Math.random()*6});}}tapPapaText(interval=200){this.sound.play('taptext',{volume:1});let temp='啪啪三国2 ';let i=0;this.time.addEvent({delay:interval,callback:()=>{if(i<5)papatext.setText(temp.slice(0,i+1));++i;if(i==6){this.tweens.timeline({targets:this.ui_magnifier,loop:0,yoyo:true,ease:'Linear',duration:120,tweens:[{scale:this.ui_magnifier.initScale*1.2},{scale:this.ui_magnifier.initScale*0.7}]},this).setCallback('onStart',()=>{this.time.addEvent({delay:170,callback:()=>{this.sound.play('magnifier',{volume:1,rate:1});this.time.addEvent({delay:40,callback:()=>{this.tweens.timeline({targets:this.ui_download,loop:-1,yoyo:true,ease:'Linear',duration:180,tweens:[{scale:this.ui_download.initScale*1.14},{scale:this.ui_download.initScale*0.86}]});},callbackScope:this,repeat:0},this);},callbackScope:this,repeat:0},this);});}},callbackScope:this,repeat:5});}showEndUI(delayTime=2500){this.time.addEvent({delay:delayTime,callback:()=>{this.tweens.add({targets:this.uiContainer,scale:1.5,alpha:1,ease:'Linear',duration:200,onComplete:()=>{this.tapPapaText(150,120);}},this);},callbackScope:this,repeat:0});}update(delta){if(bShowParticle){for(let i=0;i<this.sprites_particle.length;i++){const sprite=this.sprites_particle[i].s;sprite.y-=this.sprites_particle[i].r;if(sprite.y<-256){sprite.y=game.config.height;}}}}showParticles(){bShowParticle=true;this.sprites_particle.forEach(item=>{this.tweens.timeline({targets:item.s,ease:'Power1',duration:600,tweens:[{alpha:0.4,scale:1},{alpha:1},{alpha:0.25},{alpha:0.5},{alpha:0.4}]});})}}
+    //#region main
+        var config = {
+            type: Phaser.AUTO,
+            backgroundColor: '#0x000000',
+            scale: {
+                parent: 'phaser-example',
+                mode: Phaser.Scale.WIDTH_CONTROLS_HEIGHT,
+                // mode: Phaser.Scale.FIT,
+                autoCenter: Phaser.Scale.CENTER_BOTH,
+                width: 1600,
+                height: 900
+            },   
+            scene:[Boot, Game]
+        };
+        var game = new Phaser.Game(config);
+    //#endregion
+
+    /**
+     * 得到随机整数[min, max]  min（包含）～ max（包含）
+     */
+    function getRndInteger(min, max) {
+        return Math.floor(Math.random() * (max - min + 1) ) + min;
+    }
+</script>
+</body>
+</html>
